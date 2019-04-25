@@ -32,10 +32,12 @@ moment.relativeTimeThreshold('M', 12);
 	app.set('port', PORT);
 	app.listen(PORT,function(){
 		console.log('Earthquakeint app listening on port' +  PORT)
+			request('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson',getWeekEQData)
+		
 		setInterval(function(){
 			request('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson',getWeekEQData)
 		
-		},60*5)
+		},60*1000)
 	})
 	
 	getWeekEQData = function(e,r,b,stateName){
@@ -193,15 +195,56 @@ moment.relativeTimeThreshold('M', 12);
 	     res.sendFile('index.html');
 
 	});
+	// ['ALASKA','CALIFORNIA','COLORADO','OREGON','UTAH','HAWAII']
 	app.get('/ak',function(req,res){
 		res.setHeader('Content-Type', 'application/json');
-		res.end(JSON.stringify(stateResult['ALASKA']))
+		if(typeof stateResult['ALASKA'] != 'undefined'){
+			res.end(JSON.stringify(stateResult['ALASKA']))
+		}else{
+			res.end(JSON.stringify(false))
+		}
 	})
 	app.get('/ca',function(req,res){
 		res.setHeader('Content-Type', 'application/json');
-		res.end(JSON.stringify(stateResult['CALIFORNIA']))
+		if(typeof stateResult['CALIFORNIA'] != 'undefined'){
+			res.end(JSON.stringify(stateResult['CALIFORNIA']))
+		}else{
+			res.end(JSON.stringify(false))
+		}
+	})
+	app.get('/co',function(req,res){
+		res.setHeader('Content-Type', 'application/json');
+		console.log(stateResult['COLORADO'])
+		console.log(stateResult)
+		if(typeof stateResult['COLORADO'] != 'undefined'){
+			res.end(JSON.stringify(stateResult['COLORADO']))
+		}else{
+			console.log("FALSE")
+			res.end(JSON.stringify(false))
+		}
+
+	})
+	app.get('/or',function(req,res){
+		res.setHeader('Content-Type', 'application/json');
+		if(typeof stateResult['OREGON'] != 'undefined'){
+			res.end(JSON.stringify(stateResult['OREGON']))
+		}else{
+			res.end(JSON.stringify(false))
+		}
+	})
+	app.get('/ut',function(req,res){
+		res.setHeader('Content-Type', 'application/json');
+		if(typeof stateResult['UTAH'] != 'undefined'){
+			res.end(JSON.stringify(stateResult['UTAH']))
+		}else{
+			res.end(JSON.stringify(false))
+		}
 	})
 	app.get('/hi',function(req,res){
 		res.setHeader('Content-Type', 'application/json');
-		res.end(JSON.stringify(stateResult['HAWAII']))
+		if(typeof stateResult['HAWAII'] != 'undefined'){
+			res.end(JSON.stringify(stateResult['HAWAII']))
+		}else{
+			res.end(JSON.stringify(false))
+		}
 	})
