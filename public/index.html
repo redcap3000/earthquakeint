@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Cryptoez</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+ <script src="https://d3js.org/d3-color.v1.min.js"></script>
+<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+   
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<script>
+		jsonFunction = function(){
+
+	$.getJSON(
+	    '/ak', 
+	    function(data) { 
+	    	console.log(data)
+	    	htmlElement = document.getElementById('result')
+	    	
+	    	data.map(function(o){
+					// day check, show date where timeago is more than a day or an hour?
+					var fromNowChk = ['hours','day','days']
+					var interval = false
+					fromNowChk.filter(function(i){
+						var chk = o.fromNow.split(i)
+						if(chk.length == 2){
+							interval = i
+						}
+					})
+					htmlElement.innerHTML += '<span>'+o.place+'</span><ul><li>'+o.mag+'</li><li>'+o.percentChange+'</li><li>'+o.changeDuration+'</li><li>'+o.fromNow+'</li><li>'+interval+'</li></ul>'
+					console.log(
+						o.mag + '\t' + 
+						o.percentChange + "\t" + 
+						o.changeDuration + "\t" + 
+						o.fromNow + "\t" + 
+						interval
+					)
+				})
+	    })
+}
+	</script>
+	<div id="result">
+	</div>
+</body>
